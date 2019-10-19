@@ -6,6 +6,7 @@ optional/add-uaa-ldap-last_name_attribute.yml
 optional/add-uaa-ldap-group_search_base.yml
 optional/add-uaa-ldap-external_groups_whitelist.yml
 features/telemetry_selector-disabled.yml
+features/telemetry_installation_purpose_selector-demo_or_poc.yml
 optional/add-plan1_selector-active-master_vm_type.yml
 optional/add-plan1_selector-active-master_persistent_disk_type.yml
 optional/add-plan1_selector-active-worker_vm_type.yml
