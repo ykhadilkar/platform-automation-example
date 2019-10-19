@@ -1,5 +1,6 @@
 features/cloud_provider-vsphere.yml
 features/uaa-ldap.yml
+features/oidc_selector-enabled.yml
 optional/add-uaa-ldap-first_name_attribute.yml
 optional/add-uaa-ldap-last_name_attribute.yml
 optional/add-uaa-ldap-group_search_base.yml

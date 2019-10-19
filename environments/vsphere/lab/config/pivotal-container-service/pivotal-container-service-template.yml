@@ -58,7 +58,16 @@ product-properties:
   .properties.node_exporter_deploy:
     value: ((node_exporter_deploy))
   .properties.oidc_selector:
-    value: "false"
+    selected_option: enabled
+    value: enabled
+  .properties.oidc_selector.enabled.groups_claim:
+    value: ((oidc_selector_enabled_groups_claim))
+  .properties.oidc_selector.enabled.groups_prefix:
+    value: ((oidc_selector_enabled_groups_prefix))
+  .properties.oidc_selector.enabled.username_claim:
+    value: ((oidc_selector_enabled_username_claim))
+  .properties.oidc_selector.enabled.username_prefix:
+    value: ((oidc_selector_enabled_username_prefix))
   .properties.pks-vrli:
     value: disabled
   .properties.pks-vrops:

@@ -5,10 +5,10 @@ cloud_provider_vsphere_vcenter_ip: 192.168.7.105
 cloud_provider_vsphere_vcenter_dc: Datacenter
 cloud_provider_vsphere_vcenter_ds: datastore1
 cloud_provider_vsphere_vcenter_vms: pks_vms
-wavefront_enabled_wavefront_api_url: https:__surf.wavefront.com_api
+wavefront_enabled_wavefront_api_url: https://surf.wavefront.com_api
 wavefront_enabled_wavefront_alert_targets: dpfeffer@pivotal.io
 uaa_oidc: true
-uaa_ldap_url: ldap:__ldap.jumpcloud.com:389
+uaa_ldap_url: ldap://ldap.jumpcloud.com:389
 uaa_ldap_credentials_identity: uid=servicebind,ou=Users,o=5c390cd9c556772e64d4fbb5,dc=jumpcloud,dc=com
 uaa_ldap_search_base: ou=Users,o=5c390cd9c556772e64d4fbb5,dc=jumpcloud,dc=com
 uaa_ldap_search_filter: (&(objectClass=inetOrgPerson)(uid={0}))
@@ -19,6 +19,10 @@ uaa_ldap_last_name_attribute: sn
 uaa_ldap_mail_attribute_name: mail
 uaa_ldap_ldap_referrals:
 uaa_ldap_external_groups_whitelist: pks_*
+oidc_selector_enabled_username_prefix: 'oidc:'
+oidc_selector_enabled_username_claim: user_name
+oidc_selector_enabled_groups_prefix: 'oidc:'
+oidc_selector_enabled_groups_claim: roles
 service_network_name: services
 singleton_availability_zone: az1
 
@@ -66,7 +70,8 @@ plan2_selector_active_addons_spec: |
   provisioner: kubernetes.io_vsphere-volume
 
 bosh-metric-sink-node-exporter: false
-bosh-metric-sink-outputs: false
+bosh-metric-sink-outputs: |
+  [[outputs.discard]]
 log_sink_resources_deploy: true
 metric_sink_resources_deploy: true
 node_exporter_deploy: true
