@@ -1,64 +1,79 @@
 pks_api_hostname: api.pks.lab.winterfell.live
 network_name: infrastructure
-cloud_provider/vsphere/vcenter_master_creds_identity: administrator@vsphere.local
-cloud_provider/vsphere/vcenter_ip: 192.168.7.105
-cloud_provider/vsphere/vcenter_dc: Datacenter
-cloud_provider/vsphere/vcenter_ds: datastore1
-cloud_provider/vsphere/vcenter_vms: pks_vms
-wavefront/enabled/wavefront_api_url: https://surf.wavefront.com/api
-wavefront/enabled/wavefront_alert_targets: dpfeffer@pivotal.io
+cloud_provider_vsphere_vcenter_master_creds_identity: administrator@vsphere.local
+cloud_provider_vsphere_vcenter_ip: 192.168.7.105
+cloud_provider_vsphere_vcenter_dc: Datacenter
+cloud_provider_vsphere_vcenter_ds: datastore1
+cloud_provider_vsphere_vcenter_vms: pks_vms
+wavefront_enabled_wavefront_api_url: https:__surf.wavefront.com_api
+wavefront_enabled_wavefront_alert_targets: dpfeffer@pivotal.io
 uaa_oidc: true
-uaa/ldap/url: ldap://ldap.jumpcloud.com:389
-uaa/ldap/credentials_identity: uid=servicebind,ou=Users,o=5c390cd9c556772e64d4fbb5,dc=jumpcloud,dc=com
-uaa/ldap/search_base: ou=Users,o=5c390cd9c556772e64d4fbb5,dc=jumpcloud,dc=com
-uaa/ldap/search_filter: (&(objectClass=inetOrgPerson)(uid={0}))
-uaa/ldap/group_search_base: ou=Users,o=5c390cd9c556772e64d4fbb5,dc=jumpcloud,dc=com
-uaa/ldap/group_search_filter: member={0}
-uaa/ldap/first_name_attribute: givenName
-uaa/ldap/last_name_attribute: sn
-uaa/ldap/mail_attribute_name: mail
-uaa/ldap/ldap_referrals:
-uaa/ldap/external_groups_whitelist: pks_*
+uaa_ldap_url: ldap:__ldap.jumpcloud.com:389
+uaa_ldap_credentials_identity: uid=servicebind,ou=Users,o=5c390cd9c556772e64d4fbb5,dc=jumpcloud,dc=com
+uaa_ldap_search_base: ou=Users,o=5c390cd9c556772e64d4fbb5,dc=jumpcloud,dc=com
+uaa_ldap_search_filter: (&(objectClass=inetOrgPerson)(uid={0}))
+uaa_ldap_group_search_base: ou=Users,o=5c390cd9c556772e64d4fbb5,dc=jumpcloud,dc=com
+uaa_ldap_group_search_filter: member={0}
+uaa_ldap_first_name_attribute: givenName
+uaa_ldap_last_name_attribute: sn
+uaa_ldap_mail_attribute_name: mail
+uaa_ldap_ldap_referrals:
+uaa_ldap_external_groups_whitelist: pks_*
 service_network_name: services
 singleton_availability_zone: az1
 
 
-plan1_selector/active/name: "small-standard"
-plan1_selector/active/description: "1 master, 1 worker denying privileged containers"
-plan1_selector/active/master_az_placement: [az1]
-plan1_selector/active/worker_az_placement: [az1]
-plan1_selector/active/errand_vm_type: micro
-plan1_selector/active/master_persistent_disk_type: "10240"
-plan1_selector/active/master_vm_type: medium.disk
-plan1_selector/active/worker_persistent_disk_type: "51200"
-plan1_selector/active/worker_vm_type: medium.disk
-plan1_selector/active/worker_instances: 1
-plan1_selector/active/addons_spec: |
-  apiVersion: storage.k8s.io/v1
+plan1_selector_active_name: "small-standard"
+plan1_selector_active_description: "1 master, 1 worker denying privileged containers"
+plan1_selector_active_master_az_placement: [az1]
+plan1_selector_active_master_instances: 1
+plan1_selector_active_master_persistent_disk_type: "10240"
+plan1_selector_active_master_vm_type: medium.disk
+plan1_selector_active_max_worker_instances: 10
+plan1_selector_active_worker_az_placement: [az1]
+plan1_selector_active_worker_persistent_disk_type: "51200"
+plan1_selector_active_worker_vm_type: medium.disk
+plan1_selector_active_worker_instances: 1
+plan1_selector_active_errand_vm_type: micro
+plan1_selector_active_addons_spec: |
+  apiVersion: storage.k8s.io_v1
   kind: StorageClass
   metadata:
     name: standard
     annotations:
-      storageclass.beta.kubernetes.io/is-default-class: "true"
-  provisioner: kubernetes.io/vsphere-volume
-plan2_selector/active/name: "small-priv"
-plan2_selector/active/description: "1 master, 1 worker allowing privileged containers"
-plan2_selector/active/master_az_placement: [az1]
-plan2_selector/active/worker_az_placement: [az1]
-plan2_selector/active/errand_vm_type: micro
-plan2_selector/active/master_persistent_disk_type: "10240"
-plan2_selector/active/master_vm_type: medium.disk
-plan2_selector/active/worker_persistent_disk_type: "51200"
-plan2_selector/active/worker_vm_type: medium.disk
-plan2_selector/active/allow_privileged_containers: true
-plan2_selector/active/master_instances: 1
-plan2_selector/active/max_worker_instances: 50
-plan2_selector/active/worker_instances: 1
-plan2_selector/active/addons_spec: |
-  apiVersion: storage.k8s.io/v1
+      storageclass.beta.kubernetes.io_is-default-class: "true"
+  provisioner: kubernetes.io_vsphere-volume
+plan2_selector_active_name: "small-priv"
+plan2_selector_active_description: "1 master, 1 worker allowing privileged containers"
+plan2_selector_active_master_az_placement: [az1]
+plan2_selector_active_worker_az_placement: [az1]
+plan2_selector_active_errand_vm_type: micro
+plan2_selector_active_master_persistent_disk_type: "10240"
+plan2_selector_active_master_vm_type: medium.disk
+plan2_selector_active_worker_persistent_disk_type: "51200"
+plan2_selector_active_worker_vm_type: medium.disk
+plan2_selector_active_allow_privileged_containers: true
+plan2_selector_active_master_instances: 1
+plan2_selector_active_max_worker_instances: 50
+plan2_selector_active_worker_instances: 1
+plan2_selector_active_addons_spec: |
+  apiVersion: storage.k8s.io_v1
   kind: StorageClass
   metadata:
     name: standard
     annotations:
-      storageclass.beta.kubernetes.io/is-default-class: "true"
-  provisioner: kubernetes.io/vsphere-volume
+      storageclass.beta.kubernetes.io_is-default-class: "true"
+  provisioner: kubernetes.io_vsphere-volume
+
+bosh-metric-sink-node-exporter: false
+bosh-metric-sink-outputs: false
+log_sink_resources_deploy: true
+metric_sink_resources_deploy: true
+node_exporter_deploy: true
+network_selector_flannel_pod_network_cidr: 10.200.0.0/16
+network_selector_flannel_service_cluster_cidr: 10.100.200.0/24
+uaa_pks_cli_access_token_lifetime:  600
+uaa_pks_cli_refresh_token_lifetime: 21600
+uaa_pks_cluster_client_access_token_lifetime: 600
+uaa_pks_cluster_client_refresh_token_lifetime: 21600
+worker_max_in_flight: 1
