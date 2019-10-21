@@ -5,7 +5,7 @@ cloud_provider_vsphere_vcenter_ip: 192.168.7.105
 cloud_provider_vsphere_vcenter_dc: Datacenter
 cloud_provider_vsphere_vcenter_ds: datastore1
 cloud_provider_vsphere_vcenter_vms: pks_vms
-wavefront_enabled_wavefront_api_url: https://surf.wavefront.com_api
+wavefront_enabled_wavefront_api_url: https://surf.wavefront.com/api
 wavefront_enabled_wavefront_alert_targets: dpfeffer@pivotal.io
 uaa_oidc: true
 uaa_ldap_url: ldap://ldap.jumpcloud.com:389
@@ -45,8 +45,8 @@ plan1_selector_active_addons_spec: |
   metadata:
     name: standard
     annotations:
-      storageclass.beta.kubernetes.io_is-default-class: "true"
-  provisioner: kubernetes.io_vsphere-volume
+      storageclass.beta.kubernetes.io/is-default-class: "true"
+  provisioner: kubernetes.io/vsphere-volume
 plan2_selector_active_name: "small-priv"
 plan2_selector_active_description: "1 master, 1 worker allowing privileged containers"
 plan2_selector_active_master_az_placement: [az1]
@@ -66,8 +66,8 @@ plan2_selector_active_addons_spec: |
   metadata:
     name: standard
     annotations:
-      storageclass.beta.kubernetes.io_is-default-class: "true"
-  provisioner: kubernetes.io_vsphere-volume
+      storageclass.beta.kubernetes.io/is-default-class: "true"
+  provisioner: kubernetes.io/vsphere-volume
 
 bosh-metric-sink-node-exporter: false
 bosh-metric-sink-outputs: |
