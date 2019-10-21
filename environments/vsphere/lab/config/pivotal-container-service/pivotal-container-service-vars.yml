@@ -82,3 +82,4 @@ uaa_pks_cli_refresh_token_lifetime: 21600
 uaa_pks_cluster_client_access_token_lifetime: 600
 uaa_pks_cluster_client_refresh_token_lifetime: 21600
 worker_max_in_flight: 1
+upgrade-all-service-instances_post_deploy_state: false
