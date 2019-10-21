@@ -40,7 +40,7 @@ plan1_selector_active_worker_vm_type: medium.disk
 plan1_selector_active_worker_instances: 1
 plan1_selector_active_errand_vm_type: micro
 plan1_selector_active_addons_spec: |
-  apiVersion: storage.k8s.io_v1
+  apiVersion: storage.k8s.io/v1
   kind: StorageClass
   metadata:
     name: standard
@@ -61,7 +61,7 @@ plan2_selector_active_master_instances: 1
 plan2_selector_active_max_worker_instances: 50
 plan2_selector_active_worker_instances: 1
 plan2_selector_active_addons_spec: |
-  apiVersion: storage.k8s.io_v1
+  apiVersion: storage.k8s.io/v1
   kind: StorageClass
   metadata:
     name: standard
