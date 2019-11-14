@@ -10,7 +10,6 @@ credhub login -u admin -p "$CREDHUB_PASSWORD"
 credhub set -t value -n '/concourse/main/s3_access_key_id' -v 'REDACTED_ACCESS_KEY_D'
 credhub set -t value -n '/concourse/main/s3_secret_access_key' -v 'REDACTED_SECRET_ACCESS_KEY'
 credhub set -t value -n '/concourse/main/pivnet_token' -v 'REDACED_PIVNET_TOKEN'
-credhub set -t rsa -n '/concourse/main/configuration_git_repo' -p configuration_private_key.cert
 credhub set -t rsa -n '/concourse/main/platform_automation_example_git_repo' -p configuration_private_key2.cert
 credhub set -t rsa -n '/concourse/main/platform_automation_example_locks_git_repo' -p configuration_private_key3.cert
 credhub set -t certificate -n '/concourse/main/credhub_ca_cert' -c <(bosh int ../homelab-concourse-setup/generated/concourse/concourse-gen-vars.yml --path /atc_tls/ca)
@@ -27,6 +26,8 @@ credhub set -t value -n '/lab-foundation/opsman_username' -v 'REDACTED'
 credhub set -t value -n '/lab-foundation/opsman_password' -v 'REDACTED'
 credhub set -t value -n '/lab-foundation/s3_access_key_id' -v 'REDACTED'
 credhub set -t value -n '/lab-foundation/s3_secret_access_key' -v 'REDACTED'
+credhub set -t value -n '/lab-foundation/aws_key_id' -v 'REDACTED'
+credhub set -t value -n '/lab-foundation/aws_key_secret' -v 'REDACTED'
 
 ## Required for PKS tile if using wavefront
 credhub set -t value -n '/lab-foundation/wavefront_token' -v 'REDACTED_TOKEN'
