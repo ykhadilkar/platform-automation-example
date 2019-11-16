@@ -1,4 +1,6 @@
-bosh-metric-sink-node-exporter: false
+bosh-metric-sink-etcd: true
+bosh-metric-sink-kubelet: false
+bosh-metric-sink-node-exporter-master: false
 bosh-metric-sink-outputs: |
   [[outputs.discard]]
 log_sink_resources_deploy: true
@@ -27,7 +29,7 @@ uaa_pks_cli_access_token_lifetime: 600
 uaa_pks_cli_refresh_token_lifetime: 21600
 uaa_pks_cluster_client_access_token_lifetime: 600
 uaa_pks_cluster_client_refresh_token_lifetime: 21600
-worker_max_in_flight: 1
+worker_max_in_flight: 4
 delete-all-clusters_pre_delete_state: default
 pks-nsx-t-precheck_post_deploy_state: default
 smoke-tests_post_deploy_state: default

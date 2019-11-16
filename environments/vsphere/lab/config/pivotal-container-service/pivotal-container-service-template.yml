@@ -26,8 +26,12 @@ product-properties:
     value:
       cert_pem: ((pivotal-container-service_pks_tls_certificate))
       private_key_pem: ((pivotal-container-service_pks_tls_privatekey))
-  .properties.bosh-metric-sink-node-exporter:
-    value: ((bosh-metric-sink-node-exporter))
+  .properties.bosh-metric-sink-etcd:
+    value: ((bosh-metric-sink-etcd))
+  .properties.bosh-metric-sink-kubelet:
+    value: ((bosh-metric-sink-kubelet))
+  .properties.bosh-metric-sink-node-exporter-master:
+    value: ((bosh-metric-sink-node-exporter-master))
   .properties.bosh-metric-sink-outputs:
     value: ((bosh-metric-sink-outputs))
   .properties.cloud_provider:
@@ -164,6 +168,8 @@ product-properties:
     value: demo_or_poc
   .properties.telemetry_selector:
     selected_option: disabled
+    value: disabled
+  .properties.tmc:
     value: disabled
   .properties.uaa:
     selected_option: ldap
