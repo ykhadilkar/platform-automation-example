@@ -1,5 +1,5 @@
 dns: 192.168.7.1
-ntp: time.nist.gov
+ntp: time1.google.com,time2.google.com,time3.google.com,time4.google.com
 
 vcenter_hostname: 192.168.7.105
 vcenter_userid: administrator@vsphere.local
