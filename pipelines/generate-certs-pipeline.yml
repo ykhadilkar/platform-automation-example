@@ -22,7 +22,7 @@ jobs:
 
 - name: generate-all-certs
   plan:
-  - aggregate:
+  - in_parallel:
     - get: configuration
     - get: platform-automation-image
       resource: platform-automation

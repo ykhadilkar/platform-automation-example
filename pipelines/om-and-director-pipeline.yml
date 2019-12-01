@@ -75,14 +75,14 @@ jobs:
 - name: lock-director
   serial: true
   plan:
-  - aggregate:
+  - in_parallel:
     - put: lock
       params: {acquire: true}
     - get: director-configuration
       
 - name: validate-director-configuration
   plan:
-  - aggregate:
+  - in_parallel:
     - get: director-configuration
       trigger: true
       passed: ["lock-director"]
@@ -112,7 +112,7 @@ jobs:
 
 - name: install-opsman
   plan:
-  - aggregate:
+  - in_parallel:
     - get: director-configuration
       trigger: true
       passed: ["validate-director-configuration"]
@@ -214,7 +214,7 @@ jobs:
 
 - name: export-installation
   plan:
-  - aggregate:
+  - in_parallel:
     - get: director-configuration
       trigger: true
       passed: [ install-opsman ]
@@ -247,7 +247,7 @@ jobs:
 
 - name: upgrade-opsman
   plan:
-  - aggregate:
+  - in_parallel:
     - get: director-configuration
       trigger: true
       passed: [ export-installation ]

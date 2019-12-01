@@ -65,14 +65,14 @@ jobs:
 - name: lock-tiles
   serial: true
   plan:
-  - aggregate:
+  - in_parallel:
     - put: lock
       params: {acquire: true}
     - get: configuration
 
 - name: validate-tile-configuration
   plan:
-  - aggregate:
+  - in_parallel:
     - get: configuration
       passed: [ lock-tiles ]
       trigger: true
@@ -103,7 +103,7 @@ jobs:
 - name: download-stage-tile-stemcell
   serial: true
   plan:
-  - aggregate:
+  - in_parallel:
     - get: configuration
       passed: [ validate-tile-configuration ]
       trigger: true
@@ -145,7 +145,7 @@ jobs:
 - name: configure-and-apply
   serial: true
   plan:
-  - aggregate:
+  - in_parallel:
     - get: configuration
       passed: [ download-stage-tile-stemcell ]
       trigger: true
@@ -209,7 +209,7 @@ jobs:
 
 - name: export-staged-config
   plan:
-  - aggregate:
+  - in_parallel:
     - get: platform-automation-image
       resource: platform-automation
       params:
