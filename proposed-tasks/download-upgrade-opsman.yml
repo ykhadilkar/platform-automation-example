@@ -59,17 +59,17 @@ run:
 
     expected_version=$(bosh int download-config/${DOWNLOAD_CONFIG_FILE} --path /product-version)
 
-    staged_products=$(mktemp)
-    om --env env/"${ENV_FILE}" staged-products -f json > ${staged_products}
+    # staged_products=$(mktemp)
+    # om --env env/"${ENV_FILE}" staged-products -f json > ${staged_products}
 
-    set +e
-    staged_version=$(bosh int ${staged_products} --path /name=p-bosh/version)
-    set -e
+    # set +e
+    # staged_version=$(bosh int ${staged_products} --path /name=p-bosh/version)
+    # set -e
 
-    if [[ ${staged_version} == ${expected_version}* ]]; then
-      echo "${expected_version} already installed"
-      exit 0
-    else
+    # if [[ ${staged_version} == ${expected_version}* ]]; then
+    #   echo "${expected_version} already installed"
+    #   exit 0
+    # else
       vars_files_args=("")
       for vf in ${VARS_FILES}
       do
@@ -105,4 +105,4 @@ run:
         ${vars_files_args[@]}
 
       rm -rf ${downloaded_files}
-    fi
+    # fi
