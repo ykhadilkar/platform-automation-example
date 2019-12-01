@@ -4,7 +4,7 @@ cloud_provider_vsphere_vcenter_master_creds_identity: administrator@vsphere.loca
 cloud_provider_vsphere_vcenter_ip: 192.168.7.105
 cloud_provider_vsphere_vcenter_dc: Datacenter
 cloud_provider_vsphere_vcenter_ds: datastore1
-cloud_provider_vsphere_vcenter_vms: pks_vms
+cloud_provider_vsphere_vcenter_vms: pcf_vms
 wavefront_enabled_wavefront_api_url: https://surf.wavefront.com/api
 wavefront_enabled_wavefront_alert_targets: dpfeffer@pivotal.io
 uaa_oidc: true
