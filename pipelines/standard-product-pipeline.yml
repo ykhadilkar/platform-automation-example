@@ -94,7 +94,7 @@ jobs:
       CREDHUB_SERVER: ((credhub_server))
       CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
       CREDHUB_CLIENT: concourse_to_credhub_client
-      CREDHUB_SECRET: ((concourse_to_credhub_secret))
+      CREDHUB_SECRET: ((concourse_to_credhub_client_secret))
       PREFIX: '/((foundation))-foundation'
       INTERPOLATION_PATHS: "environments/((iaas))/((foundation))/config-common/secrets environments/((iaas))/((foundation))/config/((product))/((product))-secrets.yml"
     input_mapping:

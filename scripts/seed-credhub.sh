@@ -1,8 +1,9 @@
 # Redacted set of commands to match what is expected to be stored in credential manager
 
 # Update below to match your credhub api uri
-credhub api https://ci.lab.winterfell.live:8844 --skip-tls-validation
-credhub login -u admin -p "$CREDHUB_PASSWORD"
+credhub api https://ci.lab.winterfell.live:8844 --ca-cert <(bosh int generated/concourse/concourse-gen-vars.yml --path /atc_tls/ca)
+export CREDHUB_SECRET=$(bosh int generated/concourse/concourse-gen-vars.yml --path /credhub_admin_secret)
+credhub login --client-name credhub_admin
 
 # Concourse main team credentials.  These are required for concourse interpolation.  If your concourse
 # is leveraging vault for crednetials, you would skip this block and use the vault alternatives.  Remember
@@ -14,7 +15,7 @@ credhub set -t rsa -n '/concourse/main/platform_automation_example_git_repo' -p 
 credhub set -t rsa -n '/concourse/main/platform_automation_example_locks_git_repo' -p configuration_private_key3.cert
 credhub set -t certificate -n '/concourse/main/credhub_ca_cert' -c <(bosh int ../homelab-concourse-setup/generated/concourse/concourse-gen-vars.yml --path /atc_tls/ca)
 credhub set -t value -n '/concourse/main/credhub_secret' -v $(bosh int ../homelab-concourse-setup/generated/concourse/concourse-gen-vars.yml --path /uaa_users_admin)
-credhub set -t value -n '/concourse/main/concourse_to_credhub_secret' -v $(bosh int ../homelab-concourse-setup/generated/concourse/concourse-gen-vars.yml --path /concourse_to_credhub_secret)
+credhub set -t value -n '/concourse/main/concourse_to_credhub_client_secret' -v $(bosh int ../homelab-concourse-setup/generated/concourse/concourse-gen-vars.yml --path /concourse_to_credhub_client_secret)
 
 # Platform Automation credentials for the lab foundation
 

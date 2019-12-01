@@ -42,7 +42,7 @@ jobs:
       CREDHUB_SERVER: ((credhub_server))
       CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
       CREDHUB_CLIENT: concourse_to_credhub_client
-      CREDHUB_SECRET: ((concourse_to_credhub_secret))
+      CREDHUB_SECRET: ((concourse_to_credhub_client_secret))
       PREFIX: '/((foundation))-foundation'
       INTERPOLATION_PATHS: "environments/((iaas))/((foundation))/config-common/secrets"
     input_mapping:
@@ -56,7 +56,7 @@ jobs:
     params:
       ENV_FILE: interpolated-files/environments/((iaas))/((foundation))/config-common/secrets/env.yml
       CREDHUB_CLIENT: concourse_to_credhub_client
-      CREDHUB_SECRET: ((concourse_to_credhub_secret))
+      CREDHUB_SECRET: ((concourse_to_credhub_client_secret))
       CREDHUB_SERVER: ((credhub_server))
       CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
       DOMAINS: "*.((core_domain))"
@@ -70,7 +70,7 @@ jobs:
     params:
       ENV_FILE: interpolated-files/environments/((iaas))/((foundation))/config-common/secrets/env.yml
       CREDHUB_CLIENT: concourse_to_credhub_client
-      CREDHUB_SECRET: ((concourse_to_credhub_secret))
+      CREDHUB_SECRET: ((concourse_to_credhub_client_secret))
       CREDHUB_SERVER: ((credhub_server))
       CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
       DOMAINS: "*.pks.((core_domain)),*.api.pks.((core_domain))"
@@ -84,7 +84,7 @@ jobs:
     params:
       ENV_FILE: interpolated-files/environments/((iaas))/((foundation))/config-common/secrets/env.yml
       CREDHUB_CLIENT: concourse_to_credhub_client
-      CREDHUB_SECRET: ((concourse_to_credhub_secret))
+      CREDHUB_SECRET: ((concourse_to_credhub_client_secret))
       CREDHUB_SERVER: ((credhub_server))
       CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
       DOMAINS: "*.((core_domain)),*.((cloud_controller_system_domain)),*.((cloud_controller_apps_domain)),*.login.((cloud_controller_system_domain)),*.uaa.((cloud_controller_system_domain))"
@@ -98,7 +98,7 @@ jobs:
     params:
       ENV_FILE: interpolated-files/environments/((iaas))/((foundation))/config-common/secrets/env.yml
       CREDHUB_CLIENT: concourse_to_credhub_client
-      CREDHUB_SECRET: ((concourse_to_credhub_secret))
+      CREDHUB_SECRET: ((concourse_to_credhub_client_secret))
       CREDHUB_SERVER: ((credhub_server))
       CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
       DOMAINS: "*.login.((cloud_controller_system_domain)),*.uaa.((cloud_controller_system_domain))"
@@ -112,7 +112,7 @@ jobs:
     params:
       ENV_FILE: interpolated-files/environments/((iaas))/((foundation))/config-common/secrets/env.yml
       CREDHUB_CLIENT: concourse_to_credhub_client
-      CREDHUB_SECRET: ((concourse_to_credhub_secret))
+      CREDHUB_SECRET: ((concourse_to_credhub_client_secret))
       CREDHUB_SERVER: ((credhub_server))
       CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
       DOMAINS: "pbs.((core_domain))"
