@@ -6,7 +6,7 @@ inputs:
 
 params:
   ENV_FILE: 
-  CREDHUB_CLIENT: concourse_to_credhub
+  CREDHUB_CLIENT: concourse_to_credhub_client
   CREDHUB_SECRET: 
   CREDHUB_SERVER: 
   CREDHUB_CA_CERT: 
