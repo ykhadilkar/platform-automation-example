@@ -38,3 +38,6 @@ credhub set -t value -n '/lab-foundation/uaa_ldap_password' -v 'REDACTED_PASSWOR
 
 ## Required for PAS tile
 credhub set -t value -n '/lab-foundation/properties_credhub_key_encryption_passwords_0_key_secret' -v 'REDACTED_ENCRYPTION_KEY'
+
+## Required for Harbor tile
+credhub set -t value -n '/lab-foundation/harbor-container-registry/admin_password' -v 'REDACTED'
