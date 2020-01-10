@@ -12,9 +12,6 @@ network-properties:
     name: ((singleton_availability_zone))
 product-name: harbor-container-registry
 product-properties:
-  .properties.admin_password:
-    value:
-      secret: ((admin_password))
   .properties.admin_password_for_smoketest:
     value:
       secret: ((admin_password_for_smoketest))
