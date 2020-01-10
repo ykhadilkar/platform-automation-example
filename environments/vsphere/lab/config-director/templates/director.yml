@@ -62,7 +62,6 @@ properties-configuration:
     bosh_disk_path: ((vsphere_disks_folder))
     nsx_networking_enabled: false
   security_configuration:
-    security_tokens_trusted_certificates: ((opsman_trusted_certs))
     generate_vm_passwords: true
     security_tokens_include_opsmanager_root_ca_in_trusted_certificates: true
   syslog_configuration:

@@ -31,6 +31,8 @@ product-properties:
     value: ((no_proxy))
   .properties.registry_storage:
     value: filesystem
+  .properties.server_cert_ca:
+    value: ((server_cert_ca))
   .properties.server_cert_key:
     value:
       cert_pem: ((server_cert_key_certificate))
