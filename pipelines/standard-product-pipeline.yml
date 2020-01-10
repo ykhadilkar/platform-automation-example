@@ -189,6 +189,14 @@ jobs:
         secrets/environments/((iaas))/((foundation))/config/((product))/((product))-secrets.yml
       ENV_FILE: environments/((iaas))/((foundation))/config-common/secrets/env.yml
 
+  - task: pre-deploy-check
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/pre-deploy-check.yml
+    input_mapping:
+      env: interpolated-files
+    params:
+      ENV_FILE: environments/((iaas))/((foundation))/config-common/secrets/env.yml
+
   - task: apply-product-changes
     image: platform-automation-image
     file: configuration/proposed-tasks/apply-product-changes.yml
