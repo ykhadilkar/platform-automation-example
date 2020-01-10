@@ -202,7 +202,6 @@ When creating configuration for a product for the first time
 - `download-create-opsman` this task is an aggregate that will try to short-circuit and not download opsmanager if state file has content otherwise with download opsmanager via om download-product and create it via p-automator create-vm
 - `download-upgrade-opsman` this task is an aggregate that will short-circuit and not download opsmanager if the version installed is the version expected. This optimization only works in 2.5.x due to how opsmanager versioning worked prior to 2.5.x. If version mismatches it will download product via om download-product and update vm via p-automator upgrade-opsman
 - `download-stage-tile-stemcell` this task is an aggregrate that will only download the tile if that version is not already staged. It will also only download the expected stemcell if that version hasn't already been uploaded. Otherwise it will download both tile and stemcell using om download-product, upload tile and stemcell, stage tile and assign the specified stemcell version to the tile (always regardless of download)
-- `make-commit` - this task avoids committing state.yml using porcelain option, PR has been accepted so this task will be replace with platform-automation task once it's shipped
 - `generate-cert` - this task will generage certs for the provided domain using opsman api and then put the cert in credhut at the specified location
 
 ## Fly Pipelines

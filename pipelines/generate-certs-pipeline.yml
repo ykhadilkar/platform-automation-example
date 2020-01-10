@@ -38,7 +38,7 @@ jobs:
   - task: credhub-interpolate
     image: platform-automation-image
     file: platform-automation-tasks/tasks/credhub-interpolate.yml
-    params: &credhub_interpolate_params
+    params:
       CREDHUB_SERVER: ((credhub_server))
       CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
       CREDHUB_CLIENT: concourse_to_credhub_client

@@ -10,6 +10,7 @@ groups:
 - name: ad-hoc-jobs
   jobs: 
     - force-unlock
+    - expiring-certificates
     
 resource_types:
 - name: pivnet
@@ -62,6 +63,28 @@ resources:
     pool: ((foundation))
     retry_delay: 1m
 
+- name: daily-trigger
+  type: time
+  source:
+    interval: 24h    
+
+# This task is used in multiple jobs
+# The yaml anchor "*interpolate-creds" is used in its place
+interpolate-creds: &interpolate-creds
+  image: platform-automation-image
+  file: platform-automation-tasks/tasks/credhub-interpolate.yml
+  params: 
+    CREDHUB_SERVER: ((credhub_server))
+    CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
+    CREDHUB_CLIENT: concourse_to_credhub_client
+    CREDHUB_SECRET: ((concourse_to_credhub_client_secret))
+    PREFIX: '/((foundation))-foundation'
+    INTERPOLATION_PATHS: "environments/((iaas))/((foundation))/config-common/secrets environments/((iaas))/((foundation))/config-director/secrets"
+  input_mapping:
+    files: director-configuration
+  output_mapping:
+    interpolated-files: interpolated-files
+
 jobs:
 
 - name: force-unlock
@@ -97,18 +120,8 @@ jobs:
         unpack: true
         globs: ["*tasks*"]
 
-  - task: credhub-interpolate
-    image: platform-automation-image
-    file: platform-automation-tasks/tasks/credhub-interpolate.yml
-    params: &director_credhub_interpolate_params
-      CREDHUB_SERVER: ((credhub_server))
-      CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
-      CREDHUB_CLIENT: concourse_to_credhub_client
-      CREDHUB_SECRET: ((concourse_to_credhub_client_secret))
-      PREFIX: '/((foundation))-foundation'
-      INTERPOLATION_PATHS: "environments/((iaas))/((foundation))/config-common/secrets environments/((iaas))/((foundation))/config-director/secrets"
-    input_mapping:
-      files: director-configuration
+  - task: interpolate-creds
+    <<: *interpolate-creds
 
 - name: install-opsman
   plan:
@@ -127,14 +140,9 @@ jobs:
       params:
         unpack: true
         globs: ["*tasks*"]
-  - task: credhub-interpolate
-    image: platform-automation-image
-    file: platform-automation-tasks/tasks/credhub-interpolate.yml
-    params: *director_credhub_interpolate_params
-    input_mapping:
-      files: director-configuration
-    output_mapping:
-      interpolated-files: interpolated-files
+
+  - task: interpolate-creds
+    <<: *interpolate-creds
   
   - task: download-create-opsman
     image: platform-automation-image
@@ -155,12 +163,11 @@ jobs:
         secrets/environments/((iaas))/((foundation))/config-director/secrets/director.yml
         secrets/environments/((iaas))/((foundation))/config-director/secrets/opsman.yml
         secrets/environments/((iaas))/((foundation))/config-common/secrets/pivnet.yml
-
     ensure: &make-state-commit
       do:
         - task: make-commit
           image: platform-automation-image
-          file: director-configuration/proposed-tasks/make-commit.yml
+          file: platform-automation-tasks/tasks/make-git-commit.yml
           input_mapping:
             repository: state
             file-source: generated-state
@@ -176,7 +183,7 @@ jobs:
           params:
             repository: state-commit
             merge: true
-  
+
   - task: configure-authentication
     image: platform-automation-image
     file: platform-automation-tasks/tasks/configure-authentication.yml
@@ -188,6 +195,13 @@ jobs:
       ENV_FILE: environments/((iaas))/((foundation))/config-common/secrets/env.yml
       AUTH_CONFIG_FILE: environments/((iaas))/((foundation))/config-director/secrets/auth.yml
 
+  - task: check-pending-changes
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/check-pending-changes.yml
+    input_mapping:
+      env: interpolated-files
+    params:
+      ENV_FILE: environments/((iaas))/((foundation))/config-common/secrets/env.yml
 
   - task: configure-director
     image: platform-automation-image
@@ -228,12 +242,8 @@ jobs:
       params:
         unpack: true
         globs: ["*tasks*"]
-  - task: credhub-interpolate
-    image: platform-automation-image
-    file: platform-automation-tasks/tasks/credhub-interpolate.yml
-    params: *director_credhub_interpolate_params
-    input_mapping:
-      files: director-configuration      
+  - task: interpolate-creds
+    <<: *interpolate-creds
   - task: export-installation
     image: platform-automation-image
     file: platform-automation-tasks/tasks/export-installation.yml
@@ -265,12 +275,8 @@ jobs:
     - get: installation
       passed: [ export-installation ]
 
-  - task: credhub-interpolate
-    image: platform-automation-image
-    file: platform-automation-tasks/tasks/credhub-interpolate.yml
-    params: *director_credhub_interpolate_params
-    input_mapping:
-      files: director-configuration
+  - task: interpolate-creds
+    <<: *interpolate-creds
 
   - task: download-upgrade-opsman
     image: platform-automation-image
@@ -314,4 +320,31 @@ jobs:
   - put: lock
     params:
       release: lock
-      
+
+- name: expiring-certificates
+  plan:
+  - in_parallel:
+    - get: daily-trigger
+      trigger: true
+    - get: platform-automation-image
+      resource: platform-automation
+      params:
+        unpack: true
+        globs: ["*image*"]    
+    - get: platform-automation-tasks
+      resource: platform-automation
+      params:
+        unpack: true
+        globs: ["*tasks*"]
+    - get: director-configuration
+    - get: state
+  - task: interpolate-creds
+    <<: *interpolate-creds
+  - task: expiring-certificates
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/expiring-certificates.yml
+    input_mapping:
+      env: interpolated-files
+    params:
+      EXPIRES_WITHIN: 2w
+      ENV_FILE: environments/((iaas))/((foundation))/config-common/secrets/env.yml

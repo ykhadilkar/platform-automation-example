@@ -2,7 +2,7 @@ groups:
 - name: deployment-pipeline
   jobs: 
     - lock-tiles
-    - validate-tile-configuration
+    - validate-tile-configuration-check-pending-changes
     - download-stage-tile-stemcell
     - configure-and-apply
     - unlock-tile
@@ -52,6 +52,24 @@ resources:
     secret_access_key: ((s3_secret_access_key))
     versioned_file: ((product)).yml
 
+
+# This task is used in multiple jobs
+# The yaml anchor "*interpolate-creds" is used in its place
+interpolate-creds: &interpolate-creds
+  image: platform-automation-image
+  file: platform-automation-tasks/tasks/credhub-interpolate.yml
+  params:
+    CREDHUB_SERVER: ((credhub_server))
+    CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
+    CREDHUB_CLIENT: concourse_to_credhub_client
+    CREDHUB_SECRET: ((concourse_to_credhub_client_secret))
+    PREFIX: '/((foundation))-foundation'
+    INTERPOLATION_PATHS: "environments/((iaas))/((foundation))/config-common/secrets environments/((iaas))/((foundation))/config/((product))/((product))-secrets.yml"
+  input_mapping:
+    files: configuration
+  output_mapping:
+    interpolated-files: interpolated-files
+
 jobs:
 
 - name: force-unlock
@@ -70,7 +88,7 @@ jobs:
       params: {acquire: true}
     - get: configuration
 
-- name: validate-tile-configuration
+- name: validate-tile-configuration-check-pending-changes
   plan:
   - in_parallel:
     - get: configuration
@@ -87,25 +105,23 @@ jobs:
         unpack: true
         globs: ["*tasks*"]
 
-  - task: credhub-interpolate
+  - task: interpolate-creds
+    <<: *interpolate-creds
+
+  - task: check-pending-changes
     image: platform-automation-image
-    file: platform-automation-tasks/tasks/credhub-interpolate.yml
-    params: &credhub_interpolate_params
-      CREDHUB_SERVER: ((credhub_server))
-      CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
-      CREDHUB_CLIENT: concourse_to_credhub_client
-      CREDHUB_SECRET: ((concourse_to_credhub_client_secret))
-      PREFIX: '/((foundation))-foundation'
-      INTERPOLATION_PATHS: "environments/((iaas))/((foundation))/config-common/secrets environments/((iaas))/((foundation))/config/((product))/((product))-secrets.yml"
+    file: platform-automation-tasks/tasks/check-pending-changes.yml
     input_mapping:
-      files: configuration
+      env: interpolated-files
+    params:
+      ENV_FILE: environments/((iaas))/((foundation))/config-common/secrets/env.yml
 
 - name: download-stage-tile-stemcell
   serial: true
   plan:
   - in_parallel:
     - get: configuration
-      passed: [ validate-tile-configuration ]
+      passed: [ validate-tile-configuration-check-pending-changes ]
       trigger: true
     - get: platform-automation-image
       resource: platform-automation
@@ -118,14 +134,8 @@ jobs:
         unpack: true
         globs: ["*tasks*"]
 
-  - task: credhub-interpolate
-    image: platform-automation-image
-    file: platform-automation-tasks/tasks/credhub-interpolate.yml
-    params: *credhub_interpolate_params
-    input_mapping:
-      files: configuration
-    output_mapping:
-      interpolated-files: interpolated-files
+  - task: interpolate-creds
+    <<: *interpolate-creds
 
   - task: download-stage-tile-stemcell
     image: platform-automation-image
@@ -160,14 +170,8 @@ jobs:
         unpack: true
         globs: ["*tasks*"]
 
-  - task: credhub-interpolate
-    image: platform-automation-image
-    file: platform-automation-tasks/tasks/credhub-interpolate.yml
-    params: *credhub_interpolate_params
-    input_mapping:
-      files: configuration
-    output_mapping:
-      interpolated-files: interpolated-files
+  - task: interpolate-creds
+    <<: *interpolate-creds
 
   - task: configure
     image: platform-automation-image
@@ -221,14 +225,8 @@ jobs:
         unpack: true
         globs: ["*tasks*"]
     - get: configuration
-  - task: credhub-interpolate
-    image: platform-automation-image
-    file: platform-automation-tasks/tasks/credhub-interpolate.yml
-    params: *credhub_interpolate_params
-    input_mapping:
-      files: configuration
-    output_mapping:
-      interpolated-files: interpolated-files
+  - task: interpolate-creds
+    <<: *interpolate-creds
   - task: staged-config
     image: platform-automation-image
     file: platform-automation-tasks/tasks/staged-config.yml
