@@ -12,6 +12,9 @@ network-properties:
     name: ((singleton_availability_zone))
 product-name: harbor-container-registry
 product-properties:
+  .properties.admin_password:
+    value:
+      secret: ((admin_password))
   .properties.admin_password_for_smoketest:
     value:
       secret: ((admin_password_for_smoketest))
@@ -23,6 +26,10 @@ product-properties:
     value: default
   .properties.hostname:
     value: ((hostname))
+  .properties.initial_delay_minutes:
+    value: ((initial_delay_minutes))
+  .properties.log_insight:
+    value: disabled
   .properties.no_proxy:
     value: ((no_proxy))
   .properties.registry_storage:

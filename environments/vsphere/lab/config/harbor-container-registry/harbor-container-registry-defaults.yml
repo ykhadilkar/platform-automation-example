@@ -1,5 +1,6 @@
 clair_updater_interval: 0
-no_proxy: 127.0.0.1,localhost,ui,registry
+initial_delay_minutes: 60
+no_proxy: 127.0.0.1,localhost,.local,.internal,log,db,redis,nginx,core,portal,postgresql,jobservice,registry,registryctl,clair-adapter,chartmuseum,notary-server
 with_clair: true
 with_notary: true
 smoke-testing_post_deploy_state: default
